@@ -1,0 +1,24 @@
+# Bem-vindo ao Jekyll!
+#
+# Este arquivo de configuração foi gerado para configurações
+# que afetam todo o seu blog, valores que você deverá
+# configurar apenas uma vez. Para mais informações, consulte a documentação:
+# https://jekyllrb.com/docs/configuration/
+#
+# Uma lista de temas Jekyll padrão está disponível em:
+# https://pages.github.com/themes/
+# Você também pode criar seu próprio tema. Para mais informações, consulte:
+# https://jekyllrb.com/docs/themes/#creating-a-gem-based-theme
+
+title: Placar Maestro
+description: >- # esta é a maneira de definir uma descrição multilinha
+  Acompanhe os placares dos seus jogos favoritos em tempo real.
+baseurl: "" # o subcaminho do seu site, por exemplo, /blog
+url: "" # o domínio base e o protocolo do seu site, por exemplo, http://example.com
+twitter_username: jekyllrb
+github_username:  jekyll
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
