@@ -13,7 +13,7 @@
 title: Placar Maestro
 description: >- # esta é a maneira de definir uma descrição multilinha
   Acompanhe os placares dos seus jogos favoritos em tempo real.
-baseurl: "" # o subcaminho do seu site, por exemplo, /blog
+baseurl: "/Placar-Maestro" # o subcaminho do seu site, por exemplo, /blog
 url: "" # o domínio base e o protocolo do seu site, por exemplo, http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll

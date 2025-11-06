@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Placar Maestro | Acompanhe os placares dos seus jogos favoritos em tempo real.</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Placar Maestro" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sistema de placar para jogos de improvisação" />
+<meta property="og:description" content="Sistema de placar para jogos de improvisação" />
+<link rel="canonical" href="http://localhost:4000/Placar-Maestro/" />
+<meta property="og:url" content="http://localhost:4000/Placar-Maestro/" />
+<meta property="og:site_name" content="Placar Maestro" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Placar Maestro" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Sistema de placar para jogos de improvisação","headline":"Placar Maestro","name":"Placar Maestro","url":"http://localhost:4000/Placar-Maestro/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Placar-Maestro/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/Placar-Maestro/feed.xml" title="Placar Maestro" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Placar-Maestro/">Placar Maestro</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Placar-Maestro/">Placar Maestro</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placar Maestro</title>
+    <!-- Carrega o Tailwind CSS para o design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonte Inter para uma aparência limpa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos personalizados para complementar o Tailwind */
+        body {
+            font-family: 'Inter', 'Roboto', sans-serif;
+            /* Fundo escuro principal */
+            background-color: #111827; /* bg-gray-900 */
+        }
+
+        /* Container principal com a textura de "painel escuro" */
+        .scoreboard-panel {
+            background-color: #1f2937; /* bg-gray-800 */
+            /* Uma textura sutil de "madeira pintada" ou painel. 
+               Substitua por uma URL de imagem de textura de madeira escura, se desejar. */
+            /* background-image: url('sua-textura-de-madeira.png'); */
+            border: 4px solid #4b5563; /* Borda para dar profundidade */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* A "etiqueta" do nome do jogador */
+        .name-tag {
+            background-color: #f3f4f6; /* bg-gray-100 */
+            color: #111827; /* text-gray-900 */
+            font-weight: 600;
+            border: 1px solid #d1d5db; /* border-gray-300 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        /* A "pista" horizontal por onde o marcador corre */
+        .score-track {
+            background-color: #4b5563; /* bg-gray-600 */
+            height: 6px;
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden; /* Garante que os marcadores de linha não vazem */
+        }
+        
+        /* O marcador de pontuação do jogador (o pino verde/amarelo) */
+        .player-marker {
+            position: absolute;
+            top: 50%;
+            /* Ajuste de -8px para centralizar o marcador de 16px (w-4) */
+            transform: translateY(-50%) translateX(-8px);
+            width: 16px;
+            height: 16px;
+            border-radius: 9999px;
+            background-color: #a3e635; /* bg-lime-400 */
+            border: 2px solid #ffffff; /* Borda branca para destacar */
+            box-shadow: 0 0 10px #a3e635, 0 0 5px rgba(0,0,0,0.5);
+            transition: left 0.5s ease-in-out;
+            z-index: 10;
+        }
+        
+        /* Linhas de marcação de pontuação (0, 5, 10...) */
+        .score-marker-line {
+            position: absolute;
+            height: 100%;
+            width: 2px;
+            background-color: #374151; /* bg-gray-700 */
+            top: 0;
+            z-index: 1;
+        }
+        
+        /* Botões de controle estilizados */
+        .btn {
+            @apply px-4 py-2 rounded-lg font-semibold text-white shadow-md transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800;
+        }
+        .btn-primary {
+            @apply bg-blue-600 hover:bg-blue-700 focus:ring-blue-500;
+        }
+        .btn-secondary {
+            @apply bg-gray-600 hover:bg-gray-700 focus:ring-gray-500;
+        }
+        .btn-danger {
+            @apply bg-red-600 hover:bg-red-700 focus:ring-red-500;
+        }
+        .btn-warning {
+            @apply bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-400;
+        }
+        .btn-score {
+             @apply btn btn-warning text-gray-900 w-full sm:w-auto text-lg;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8 min-h-screen">
+
+    <div class="container mx-auto max-w-7xl">
+
+        <!-- ===== FASE 1: CONFIGURAÇÃO INICIAL ===== -->
+        <div id="setup-section" class="max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold text-center mb-4 text-yellow-400">MAESTRO</h1>
+            <p class="text-center text-gray-300 mb-4">Digite os nomes dos jogadores, separados por vírgula.</p>
+            <textarea id="player-names-input"
+                class="w-full h-32 p-3 bg-gray-900 text-gray-100 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Ex: Ana, Beto, Carla, Davi, Elisa..."></textarea>
+            <button id="start-show-btn" class="btn btn-primary w-full mt-4 text-lg">
+                Iniciar Show
+            </button>
+        </div>
+
+        <!-- ===== FASE 2-7: PAINEL PRINCIPAL DO JOGO (Oculto por padrão) ===== -->
+        <div id="game-section" class="hidden">
+            
+            <h1 class="text-4xl font-bold text-center mb-6 text-yellow-400">PLACAR MAESTRO</h1>
+
+            <div class="flex flex-col lg:flex-row gap-6">
+
+                <!-- Coluna Esquerda: Controles do Emcee/Diretor -->
+                <div class="lg:w-1/3 space-y-6">
+                    <!-- FASE 2: Seleção de Cena -->
+                    <div class="scoreboard-panel p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Sorteio de Cena</h2>
+                        <div class="flex items-center gap-3 mb-3">
+                            <label for="scene-player-count" class="flex-shrink-0">Jogadores na cena:</label>
+                            <select id="scene-player-count" class="bg-gray-900 text-white rounded p-2 border border-gray-700">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                        <button id="draw-players-btn" class="btn btn-primary w-full">
+                            Sortear Jogadores
+                        </button>
+                    </div>
+
+                    <!-- FASE 3: Pontuação -->
+                    <div class="scoreboard-panel p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Pontuação da Cena</h2>
+                        <div id="current-scene-display" class="min-h-[60px] bg-gray-900 rounded-lg p-3 text-center text-lg font-semibold text-green-400 mb-3 border border-gray-700 flex items-center justify-center">
+                            Sorteie os jogadores...
+                        </div>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button class="btn-score" data-score="1">1</button>
+                            <button class="btn-score" data-score="2">2</button>
+                            <button class="btn-score" data-score="3">3</button>
+                            <button class="btn-score" data-score="4">4</button>
+                            <button class="btn-score" data-score="5">5</button>
+                        </div>
+                    </div>
+
+                    <!-- FASE 5: Eliminação -->
+                    <div class="scoreboard-panel p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Eliminação</h2>
+                         <div class="flex items-center gap-3 mb-3">
+                            <label for="eliminate-count" class="flex-shrink-0">Eliminar os</label>
+                            <input type="number" id="eliminate-count" value="1" min="1" class="w-20 bg-gray-900 text-white p-2 rounded border border-gray-700 text-center">
+                            <span class="flex-shrink-0">últimos.</span>
+                        </div>
+                         <button id="eliminate-players-btn" class="btn btn-danger w-full">
+                            Eliminar Jogadores
+                        </button>
+                    </div>
+                    
+                    <!-- FASE 7: Funções Adicionais -->
+                    <div class="scoreboard-panel p-4 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Controles do Show</h2>
+                        <div class="flex gap-3">
+                            <button id="undo-btn" class="btn btn-secondary w-1/3">Desfazer</button>
+                            <button id="reset-show-btn" class="btn btn-danger w-1/3">Resetar Show</button>
+                            <button id="clear-storage-btn" class="btn btn-secondary w-1/3">Limpar Cache</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: O Placar Principal -->
+                <div class="lg:w-2/3 space-y-6">
+                    <!-- FASE 4: Placar Principal -->
+                    <div class="scoreboard-panel p-4 rounded-lg">
+                        <h2 class="text-2xl font-bold mb-4 text-center">Placar Principal (Ativos)</h2>
+                        
+                        <!-- Cabeçalho das Pistas de Pontuação -->
+                        <div class="flex items-center mb-2 text-xs font-bold text-gray-400">
+                            <!-- Espaço para o nome -->
+                            <div class="w-1/3 md:w-1/4 pr-2">JOGADOR</div>
+                            <!-- Marcas de pontuação -->
+                            <div class="w-2/3 md:w-3/4 flex relative">
+                                <span class="absolute left-0 -bottom-4">0</span>
+                                <span class="absolute left-[16.66%] -bottom-4">5</span>
+                                <span class="absolute left-[33.33%] -bottom-4">10</span>
+                                <span class="absolute left-[50%] -bottom-4">15</span>
+                                <span class="absolute left-[66.66%] -bottom-4">20</span>
+                                <span class="absolute left-[83.33%] -bottom-4">25</span>
+                                <span class="absolute right-0 -bottom-4">30+</span>
+                            </div>
+                        </div>
+                        
+                        <div id="scoreboard-player-list" class="space-y-3 mt-6">
+                            <!-- Jogadores serão inseridos aqui pelo JavaScript -->
+                            <!-- Exemplo de linha de jogador (será gerado dinamicamente):
+                            <div class="flex items-center">
+                                <div class="w-1/3 md:w-1/4 pr-2">
+                                    <div class="name-tag py-1 px-2 rounded truncate">
+                                        #1 Ana (15)
+                                    </div>
+                                </div>
+                                <div class="w-2/3 md:w-3/4">
+                                    <div class="score-track">
+                                        <div class="player-marker" style="left: 50%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+
+                    <!-- Lista de Eliminados -->
+                    <div class="scoreboard-panel p-4 rounded-lg bg-gray-900">
+                        <h2 class="text-xl font-semibold mb-3 text-gray-500">Jogadores Eliminados</h2>
+                        <div id="eliminated-player-list" class="flex flex-wrap gap-x-4 gap-y-2 text-gray-600 line-through">
+                            <!-- Nomes dos eliminados aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FASE 6: MODAL DE VENCEDOR (Oculto por padrão) ===== -->
+        <div id="winner-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+            <div class="bg-white text-gray-900 p-8 md:p-12 rounded-lg shadow-2xl text-center max-w-lg mx-auto transform transition-all scale-95 opacity-0" id="winner-modal-content">
+                <span class="text-7xl mb-4 block">🏆</span>
+                <h1 class="text-2xl md:text-4xl font-bold mb-4">O MAESTRO É...</h1>
+                <div id="winner-name" class="bg-yellow-300 text-yellow-900 font-bold text-3xl md:text-5xl p-4 rounded-lg">
+                    <!-- Nome do Vencedor Aqui -->
+                </div>
+                <button id="close-winner-modal-btn" class="btn btn-primary mt-8">
+                    Jogar Novamente
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ===== ESTADO GLOBAL DA APLICAÇÃO =====
+            let players = []; // Array principal de objetos de jogador
+            let history = []; // Para a função "Desfazer"
+            let currentScene = []; // Array de IDs dos jogadores na cena atual
+            let maxScoreForUI = 30; // Pontuação base para a largura da trilha
+            
+            // ===== FUNÇÕES DE PERSISTÊNCIA =====
+            
+            /** Salva o estado atual no localStorage */
+            function saveToLocalStorage() {
+                const gameState = {
+                    players,
+                    currentScene,
+                    maxScoreForUI,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('placarMaestroState', JSON.stringify(gameState));
+            }
+            
+            /** Carrega o estado do localStorage */
+            function loadFromLocalStorage() {
+                const savedState = localStorage.getItem('placarMaestroState');
+                if (savedState) {
+                    const gameState = JSON.parse(savedState);
+                    players = gameState.players;
+                    currentScene = gameState.currentScene;
+                    maxScoreForUI = gameState.maxScoreForUI;
+                    return true;
+                }
+                return false;
+            }
+            
+            /** Limpa os dados salvos */
+            function clearLocalStorage() {
+                localStorage.removeItem('placarMaestroState');
+            }
+            
+            // ===== SELETORES DE ELEMENTOS DOM =====
+            const setupSection = document.getElementById('setup-section');
+            const gameSection = document.getElementById('game-section');
+            const startShowBtn = document.getElementById('start-show-btn');
+            const playerNamesInput = document.getElementById('player-names-input');
+            const drawPlayersBtn = document.getElementById('draw-players-btn');
+            const scenePlayerCount = document.getElementById('scene-player-count');
+            const currentSceneDisplay = document.getElementById('current-scene-display');
+            const scoringButtonsContainer = document.querySelector('#scoring-buttons-container div');
+            const scoreboardPlayerList = document.getElementById('scoreboard-player-list');
+            const eliminatedPlayerList = document.getElementById('eliminated-player-list');
+            const eliminatePlayersBtn = document.getElementById('eliminate-players-btn');
+            const eliminateCountInput = document.getElementById('eliminate-count');
+            const undoBtn = document.getElementById('undo-btn');
+            const resetShowBtn = document.getElementById('reset-show-btn');
+            const winnerModal = document.getElementById('winner-modal');
+            const winnerModalContent = document.getElementById('winner-modal-content');
+            const winnerName = document.getElementById('winner-name');
+            const closeWinnerModalBtn = document.getElementById('close-winner-modal-btn');
+            
+            // ===== FUNÇÕES DE MANIPULAÇÃO DE ESTADO =====
+
+            /** Salva o estado atual (jogadores e maxScore) no histórico */
+            function saveState() {
+                history.push(JSON.stringify({ players, maxScoreForUI }));
+                if (history.length > 20) { // Limita o histórico
+                    history.shift();
+                }
+                updateUndoButton();
+            }
+
+            /** Carrega um estado do histórico */
+            function loadState(state) {
+                const parsedState = JSON.parse(state);
+                players = parsedState.players;
+                maxScoreForUI = parsedState.maxScoreForUI;
+                render();
+                // Garante que os avisos sejam recarregados após Desfazer
+                if (currentScene.length === 0) {
+                    checkPoolWarnings();
+                }
+            }
+
+            /** Atualiza a visibilidade do botão Desfazer */
+            function updateUndoButton() {
+                undoBtn.disabled = history.length === 0;
+                undoBtn.classList.toggle('opacity-50', history.length === 0);
+            }
+
+            // ===== FUNÇÕES DE RENDERIZAÇÃO (ATUALIZAÇÃO DA UI) =====
+
+            /** Renderiza tudo (placar, lista de eliminados) com base no estado 'players' */
+            function render() {
+                // Limpa os placares
+                scoreboardPlayerList.innerHTML = '';
+                eliminatedPlayerList.innerHTML = '';
+                
+                const activePlayers = players.filter(p => p.status === 'active');
+                const eliminatedPlayers = players.filter(p => p.status === 'eliminated');
+                
+                // Classifica os jogadores ativos por pontuação (maior para menor)
+                activePlayers.sort((a, b) => b.score - a.score);
+                
+                // Encontra a pontuação máxima real para escalar a UI
+                // O mínimo é 30, mas se alguém passar, a UI se expande
+                const currentMaxScore = Math.max(...activePlayers.map(p => p.score));
+                maxScoreForUI = Math.max(30, currentMaxScore);
+
+                // Renderiza jogadores ativos
+                activePlayers.forEach(player => {
+                    // Calcula a posição do marcador
+                    // Garante que não ultrapasse 100%
+                    const scorePercent = Math.min(100, (player.score / maxScoreForUI) * 100);
+                    
+                    const playerRow = document.createElement('div');
+                    playerRow.className = 'flex items-center';
+                    playerRow.innerHTML = `
+                        <div class="w-1/3 md:w-1/4 pr-2">
+                            <div class="name-tag py-1 px-2 rounded truncate" title="#${player.id} ${player.name} (${player.score})">
+                                #${player.id} ${player.name} (${player.score})
+                            </div>
+                        </div>
+                        <div class="w-2/3 md:w-3/4">
+                            <div class="score-track">
+                                <!-- Linhas de 5 em 5 -->
+                                <div class="score-marker-line" style="left: ${100 * 5/maxScoreForUI}%;"></div>
+                                <div class="score-marker-line" style="left: ${100 * 10/maxScoreForUI}%;"></div>
+                                <div class="score-marker-line" style="left: ${100 * 15/maxScoreForUI}%;"></div>
+                                <div class="score-marker-line" style="left: ${100 * 20/maxScoreForUI}%;"></div>
+                                <div class="score-marker-line" style="left: ${100 * 25/maxScoreForUI}%;"></div>
+                                <div class="score-marker-line" style="left: ${100 * 30/maxScoreForUI}%;"></div>
+                                
+                                <!-- O marcador do jogador -->
+                                <div class="player-marker" style="left: ${scorePercent}%;"></div>
+                            </div>
+                        </div>
+                    `;
+                    scoreboardPlayerList.appendChild(playerRow);
+                });
+                
+                // Renderiza jogadores eliminados
+                eliminatedPlayers.forEach(player => {
+                    const elimSpan = document.createElement('span');
+                    elimSpan.textContent = `#${player.id} ${player.name}`;
+                    eliminatedPlayerList.appendChild(elimSpan);
+                });
+                
+                // Limpa a cena atual se não houver mais jogadores nela
+                if (currentScene.length === 0) {
+                     renderCurrentScene();
+                }
+            }
+            
+            /** Verifica o pool de sorteio e exibe avisos se necessário */
+            function checkPoolWarnings() {
+                // Esta função é chamada quando uma cena é limpa (após pontuar)
+                if (currentScene.length > 0) return; // Não mostra aviso se uma cena está ativa
+
+                const pool = players.filter(p => p.status === 'active' && !p.hasPlayedInRound);
+                
+                if (pool.length === 3) {
+                    currentSceneDisplay.textContent = 'ATENÇÃO: Apenas 3 jogadores restantes na rodada!';
+                    currentSceneDisplay.classList.add('text-yellow-400');
+                    currentSceneDisplay.classList.remove('text-gray-400', 'text-green-400');
+                } else if (pool.length === 1) {
+                    currentSceneDisplay.textContent = 'ATENÇÃO: Apenas 1 jogador restante. Clique em "Sortear" para a cena solo.';
+                    currentSceneDisplay.classList.add('text-yellow-400');
+                    currentSceneDisplay.classList.remove('text-gray-400', 'text-green-400');
+                } else {
+                    // Estado padrão
+                    currentSceneDisplay.textContent = 'Sorteie os jogadores...';
+                    currentSceneDisplay.classList.remove('text-green-400', 'text-yellow-400');
+                    currentSceneDisplay.classList.add('text-gray-400');
+                }
+            }
+
+            /** Atualiza apenas o display da cena atual */
+            function renderCurrentScene() {
+                if (currentScene.length === 0) {
+                    // Não redefine o texto aqui, chama checkPoolWarnings
+                    checkPoolWarnings();
+                    return;
+                }
+                
+                const scenePlayerNames = currentScene.map(id => {
+                    const player = players.find(p => p.id === id);
+                    return `#${player.id} ${player.name}`;
+                }).join(', ');
+                
+                currentSceneDisplay.textContent = `EM CENA: ${scenePlayerNames}`;
+                currentSceneDisplay.classList.add('text-green-400');
+                currentSceneDisplay.classList.remove('text-gray-400', 'text-yellow-400');
+            }
+            
+            /** Verifica se há um vencedor e mostra o modal */
+            function checkWinner() {
+                const activePlayers = players.filter(p => p.status === 'active');
+                if (activePlayers.length === 1) {
+                    const winner = activePlayers[0];
+                    winnerName.textContent = `#${winner.id} ${winner.name}`;
+                    winnerModal.classList.remove('hidden');
+                    // Pequeno atraso para a animação de entrada
+                    setTimeout(() => {
+                        winnerModalContent.classList.remove('scale-95', 'opacity-0');
+                    }, 10);
+                }
+            }
+
+            // ===== HANDLERS DE EVENTOS =====
+
+            /** FASE 1: Iniciar o Show */
+            function handleStartShow() {
+                const names = playerNamesInput.value
+                    .split(',')
+                    .map(name => name.trim())
+                    .filter(name => name.length > 0);
+                
+                if (names.length === 0) return;
+                
+                saveState(); // Salva o estado vazio para o "Desfazer"
+                
+                players = names.map((name, index) => ({
+                    id: index + 1,
+                    name: name,
+                    score: 0,
+                    status: 'active',
+                    hasPlayedInRound: false // <-- NOVO: Rastreia o "bingo"
+                }));
+                
+                history = []; // Limpa o histórico para o novo show
+                currentScene = [];
+                
+                setupSection.classList.add('hidden');
+                gameSection.classList.remove('hidden');
+                
+                render();
+                updateUndoButton();
+                saveToLocalStorage(); // Salva o estado inicial
+            }
+
+            /** Reseta o status 'hasPlayedInRound' de todos os jogadores ativos */
+            function resetRound() {
+                console.log("--- NOVA RODADA INICIADA ---");
+                players.forEach(p => {
+                    if (p.status === 'active') {
+                        p.hasPlayedInRound = false;
+                    }
+                });
+            }
+
+            /** FASE 2: Sortear Jogadores */
+            function handleDrawScene() {
+                saveState();
+                
+                // 1. Encontra jogadores disponíveis (que não jogaram nesta rodada)
+                let playersToDrawFrom = players.filter(p => p.status === 'active' && !p.hasPlayedInRound);
+                
+                // 2. Se o pool estiver vazio, reseta a rodada
+                if (playersToDrawFrom.length === 0) {
+                    resetRound();
+                    playersToDrawFrom = players.filter(p => p.status === 'active' && !p.hasPlayedInRound);
+                }
+                
+                const poolSize = playersToDrawFrom.length;
+                const count = parseInt(scenePlayerCount.value, 10);
+                
+                let drawnPlayers;
+
+                // 3. Verifica casos especiais (cena solo)
+                if (poolSize === 1) {
+                    // Caso especial: Apenas 1 jogador restou, cena solo automática
+                    drawnPlayers = playersToDrawFrom;
+                } else {
+                    // Sorteio normal do pool disponível
+                    let shuffled = playersToDrawFrom.sort(() => 0.5 - Math.random());
+                    // Garante que não tente pegar mais do que o disponível (ex: pedir 3 quando só há 2)
+                    drawnPlayers = shuffled.slice(0, Math.min(count, poolSize));
+                }
+                
+                // 4. Define a cena e marca os jogadores como "jogaram"
+                currentScene = drawnPlayers.map(p => p.id);
+                currentScene.forEach(id => {
+                    const player = players.find(p => p.id === id);
+                    if (player) {
+                        player.hasPlayedInRound = true;
+                    }
+                });
+                
+                renderCurrentScene();
+                saveToLocalStorage(); // Salva após sortear jogadores
+            }
+            
+            /** FASE 3: Pontuar a Cena */
+            function handleScore(e) {
+                if (e.target.tagName !== 'BUTTON') return; // Garante que clicou no botão
+                if (currentScene.length === 0) {
+                    // Substituído alert() por um aviso no console.
+                    console.warn("Tentativa de pontuar sem jogadores em cena. Sorteie os jogadores primeiro.");
+                    return;
+                }
+                
+                saveState();
+                
+                const points = parseInt(e.target.dataset.score, 10);
+                
+                currentScene.forEach(playerId => {
+                    const player = players.find(p => p.id === playerId);
+                    if (player) {
+                        player.score += points;
+                    }
+                });
+                
+                // Limpa a cena após pontuar
+                currentScene = [];
+                
+                render();
+                // checkPoolWarnings() é chamado dentro do render() -> renderCurrentScene()
+                saveToLocalStorage(); // Salva após pontuar
+            }
+
+            /** FASE 5: Eliminar Jogadores */
+            function handleEliminate() {
+                const count = parseInt(eliminateCountInput.value, 10);
+                if (count <= 0) return;
+                
+                saveState();
+                
+                let activePlayers = players.filter(p => p.status === 'active');
+
+                // Impede a eliminação de todos ou mais jogadores
+                if (count >= activePlayers.length) {
+                    console.warn("Não é possível eliminar todos os jogadores. Deixe pelo menos um vencedor!");
+                    history.pop(); // Remove o saveState desnecessário
+                    updateUndoButton();
+                    return;
+                }
+
+                // Classifica por pontuação (menor para maior)
+                activePlayers.sort((a, b) => a.score - b.score);
+                
+                const cutoffPlayer = activePlayers[count - 1];
+                const nextPlayer = activePlayers[count]; // O primeiro jogador que "ficaria"
+                
+                let toEliminate;
+
+                // Verifica se há um empate NA LINHA DE CORTE (entre o último a ser cortado e o primeiro a ficar)
+                if (nextPlayer && cutoffPlayer.score === nextPlayer.score) {
+                    // HÁ UM EMPATE.
+                    // Elimina apenas jogadores com pontuação ESTRITAMENTE MENOR que a pontuação de corte.
+                    // Ex: 3 com 9pts, 4 com 11pts. Pedido para eliminar 5.
+                    // cutoffScore é 11. O filtro elimina apenas os 3 com 9pts.
+                    const cutoffScore = cutoffPlayer.score;
+                    toEliminate = activePlayers.filter(p => p.score < cutoffScore);
+                } else {
+                    // NÃO HÁ EMPATE na linha de corte.
+                    // Elimina normalmente os 'count' piores.
+                    toEliminate = activePlayers.slice(0, count);
+                }
+
+                // Se a nova regra de empate resultou em 0 eliminações (ex: count=2, mas 3 estão empatados em último)
+                // Não faz nada e desfaz o save.
+                if (toEliminate.length === 0) {
+                     console.warn("Eliminação cancelada devido a empate na pontuação mais baixa.");
+                     history.pop(); // Remove o saveState desnecessário
+                     updateUndoButton();
+                     return;
+                }
+                
+                // Marca os jogadores como eliminados no array original 'players'
+                toEliminate.forEach(elimPlayer => {
+                    const player = players.find(p => p.id === elimPlayer.id);
+                    if (player) {''
+                        player.status = 'eliminated';
+                    }
+                });
+                
+                render();
+                saveToLocalStorage(); // Salva após eliminar jogadores
+                checkWinner(); // Verifica se a eliminação resultou em um vencedor
+            }
+            
+            /** FASE 7: Desfazer Última Ação */
+            function handleUndo() {
+                if (history.length > 0) {
+                    const lastState = history.pop();
+                    loadState(lastState);
+                }
+                updateUndoButton();
+            }
+            
+            /** FASE 7: Resetar o Show */
+            function handleResetShow() {
+                // O 'confirm()' foi removido para compatibilidade.
+                // if (confirm("Tem certeza que deseja resetar o show? Todo o progresso será perdido.")) {
+                    players = [];
+                    history = [];
+                    currentScene = [];
+                    
+                    playerNamesInput.value = ''; // Limpa o campo de texto
+                    gameSection.classList.add('hidden');
+                    setupSection.classList.remove('hidden');
+                    winnerModal.classList.add('hidden'); // Esconde o modal de vencedor
+                    
+                    render();
+                    updateUndoButton();
+                    clearLocalStorage(); // Limpa os dados salvos ao resetar o show
+                // }
+            }
+
+            /** FASE 6: Fechar o Modal de Vencedor */
+            function handleCloseWinnerModal() {
+                // Animação de saída
+                winnerModalContent.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    winnerModal.classList.add('hidden');
+                    // Resetar o show para jogar novamente
+                    handleResetShow();
+                }, 300); // Tempo da animação
+            }
+            
+            /** Limpa os dados salvos manualmente */
+            function handleClearStorage() {
+                clearLocalStorage();
+                handleResetShow(); // Reset completo do show após limpar os dados
+            }
+
+            // ===== INICIALIZAÇÃO E ADIÇÃO DE LISTENERS =====
+            startShowBtn.addEventListener('click', handleStartShow);
+            drawPlayersBtn.addEventListener('click', handleDrawScene);
+            document.querySelectorAll('.btn-score').forEach(btn => {
+                btn.addEventListener('click', handleScore);
+            });
+            eliminatePlayersBtn.addEventListener('click', handleEliminate);
+            undoBtn.addEventListener('click', handleUndo);
+            resetShowBtn.addEventListener('click', handleResetShow);
+            closeWinnerModalBtn.addEventListener('click', handleCloseWinnerModal);
+            document.getElementById('clear-storage-btn').addEventListener('click', handleClearStorage);
+            
+            // Inicializa o botão Desfazer
+            updateUndoButton();
+
+            // Carrega o estado salvo ao iniciar
+            if (loadFromLocalStorage()) {
+                setupSection.classList.add('hidden');
+                gameSection.classList.remove('hidden');
+                render();
+            }
+        });
+    </script>
+</body>
+</html>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Placar-Maestro/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Placar Maestro</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Placar Maestro</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jekyll"><svg class="svg-icon"><use xlink:href="/Placar-Maestro/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jekyll</span></a></li><li><a href="https://www.twitter.com/jekyllrb"><svg class="svg-icon"><use xlink:href="/Placar-Maestro/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">jekyllrb</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Acompanhe os placares dos seus jogos favoritos em tempo real.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
