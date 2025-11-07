@@ -37,6 +37,7 @@ As regras completas do jogo estão documentadas no arquivo [regras.md](regras.md
 
 - HTML5
 - JavaScript (Vanilla)
+- Jekyll
 - Tailwind CSS
 - Google Fonts (Inter, Roboto)
 
@@ -56,6 +57,20 @@ Sinta-se à vontade para abrir issues ou enviar pull requests com melhorias para
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-## 🎨 Customização
+## 🔧 Desenvolvimento Local
 
-O projeto utiliza Tailwind CSS para estilização, permitindo fácil customização através das classes utilitárias ou modificação dos estilos no arquivo `index.html`.
+Para rodar o projeto localmente, siga estes passos:
+
+1. Certifique-se de ter Ruby instalado em seu sistema
+2. Instale o Jekyll e as dependências do projeto:
+   ```bash
+   gem install bundler
+   bundle install
+   ```
+3. Inicie o servidor local:
+   ```bash
+   bundle exec jekyll serve
+   ```
+4. Acesse o site em `http://localhost:4000`
+
+O servidor irá atualizar automaticamente quando você fizer alterações nos arquivos.
