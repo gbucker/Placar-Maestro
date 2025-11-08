@@ -1,0 +1,141 @@
+/* Estilos base que não podem ser facilmente replicados com Tailwind */
+.scoreboard-panel {
+    background-color: rgb(31 41 55); /* bg-gray-800 */
+    border: 4px solid rgb(75 85 99); /* border-gray-600 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05),
+                inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Elementos do placar */
+.score-track {
+    background-color: #4b5563;
+    height: 6px;
+    border-radius: 0.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.score-marker-line {
+    position: absolute;
+    height: 100%;
+    width: 2px;
+    background-color: rgb(55 65 81); /* bg-gray-700 */
+    top: 0;
+    z-index: 1;
+}
+
+.player-marker {
+    position: absolute;
+    top: 50%;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    background-color: #a3e635; /* bg-score-marker */
+    border: 2px solid white;
+    z-index: 10;
+    transform: translateY(-50%) translateX(-8px);
+    box-shadow: 0 0 10px #a3e635,
+                0 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.5s ease-in-out;
+}
+
+/* Tokens dos jogadores */
+.player-token {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #facc15; /* bg-player-token */
+    color: rgb(17 24 39); /* text-gray-900 */
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+                0 4px 6px -4px rgb(0 0 0 / 0.1); /* shadow-lg */
+    cursor: default;
+}
+
+/* Botões */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+    transition: all 150ms;
+    outline: none;
+}
+
+.btn-primary {
+    background-color: #2563eb; /* bg-primary */
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8; /* bg-primary-hover */
+}
+
+.btn-secondary {
+    background-color: #4b5563; /* bg-secondary */
+}
+
+.btn-secondary:hover {
+    background-color: #374151; /* bg-secondary-hover */
+}
+
+.btn-danger {
+    background-color: #dc2626; /* bg-danger */
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c; /* bg-danger-hover */
+}
+
+.btn-warning {
+    background-color: #f59e42; /* bg-warning */
+    color: rgb(17 24 39); /* text-gray-900 */
+}
+
+.btn-warning:hover {
+    background-color: #fbbf24; /* bg-warning-hover */
+}
+
+.btn-score {
+    background-color: #fbbf24; /* bg-score */
+    color: rgb(17 24 39); /* text-gray-900 */
+    width: 100%;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.btn-score:hover {
+    background-color: #f59e0b; /* bg-yellow-500 */
+}
+
+/* Estilo para o botão de rodada relâmpago quando ativo */
+[data-action="toggle-lightning-round"].btn-primary {
+    background-color: #eab308; /* bg-yellow-500 */
+    box-shadow: 0 0 15px #eab308,
+                0 0 10px rgba(234, 179, 8, 0.5);
+    animation: pulse 2s infinite;
+}
+
+[data-action="toggle-lightning-round"].btn-primary:hover {
+    background-color: #ca8a04; /* bg-yellow-600 */
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 15px #eab308,
+                    0 0 10px rgba(234, 179, 8, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 25px #eab308,
+                    0 0 15px rgba(234, 179, 8, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 15px #eab308,
+                    0 0 10px rgba(234, 179, 8, 0.5);
+    }
+}
