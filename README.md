@@ -31,7 +31,6 @@ Para agilizar a operação durante o show, utilize os seguintes atalhos de tecla
 - **`s`**: Sorteia os próximos jogadores.
 - **`e`**: Elimina os jogadores com a menor pontuação.
 - **`z`**: Desfaz a última ação (pontuação, sorteio ou eliminação).
-- **`r`**: Ativa ou desativa a Rodada Relâmpago (funcionalidade avançada).
 
 ## 📋 Regras do Jogo
 

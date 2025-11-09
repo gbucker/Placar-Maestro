@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentScene = [];
     let maxScoreForUI = 30;
     let currentRound = 1;
-    let isLightningRound = false;
 
     // ===== FUNÇÕES DE PERSISTÊNCIA =====
     /**
@@ -43,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             currentScene,
             maxScoreForUI,
             currentRound,
-            isLightningRound,
             timestamp: Date.now()
         };
         localStorage.setItem('placarMaestroState', JSON.stringify(gameState));
@@ -61,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
             currentScene = gameState.currentScene;
             maxScoreForUI = gameState.maxScoreForUI;
             currentRound = gameState.currentRound || 1;
-            isLightningRound = gameState.isLightningRound || false;
             return true;
         }
         return false;
@@ -100,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== FUNÇÕES DE MANIPULAÇÃO DE ESTADO =====
     function saveState() {
-        history.push(JSON.stringify({ players, maxScoreForUI, currentRound, currentScene, isLightningRound }));
+        history.push(JSON.stringify({ players, maxScoreForUI, currentRound, currentScene }));
         if (history.length > 20) {
             history.shift();
         }
@@ -112,21 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
         maxScoreForUI = parsedState.maxScoreForUI;
         currentRound = parsedState.currentRound || 1;
         currentScene = parsedState.currentScene || [];
-        isLightningRound = parsedState.isLightningRound || false;
         render();
         renderCurrentScene();
-
-        // Sincroniza o botão da rodada relâmpago
-        const lightningBtn = document.querySelector('[data-action="toggle-lightning-round"]');
-        if (lightningBtn) {
-            if (isLightningRound) {
-                lightningBtn.classList.remove('btn-secondary');
-                lightningBtn.classList.add('btn-primary');
-            } else {
-                lightningBtn.classList.remove('btn-primary');
-                lightningBtn.classList.add('btn-secondary');
-            }
-        }
     }
     function updateUndoButton() {
         undoBtn.disabled = history.length === 0;
@@ -149,19 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 eliminatePlayersBtn.title = "A eliminação só é permitida quando todos os jogadores ativos tiverem jogado na rodada.";
             } else {
                 eliminatePlayersBtn.title = "Eliminar os jogadores com as pontuações mais baixas.";
-            }
-        }
-
-        // Atualiza o botão de rodada relâmpago
-        const lightningBtn = document.querySelector('[data-action="toggle-lightning-round"]');
-        if (lightningBtn && isLightningRound) {
-            lightningBtn.disabled = !allHavePlayed;
-            lightningBtn.classList.toggle('opacity-50', !allHavePlayed);
-            lightningBtn.classList.toggle('cursor-not-allowed', !allHavePlayed);
-            if (!allHavePlayed) {
-                lightningBtn.title = "A rodada relâmpago só pode ser encerrada depois que todos os jogadores ativos participarem.";
-            } else {
-                lightningBtn.title = "Encerrar rodada relâmpago";
             }
         }
     }
@@ -286,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!player) return `#${id}`;
             return `#${player.id} ${player.name}`;
         }).join(', ');
-        currentSceneDisplay.textContent = `EM CENA${isLightningRound ? ' (RELÂMPAGO)' : ''}: ${scenePlayerNames}`;
+        currentSceneDisplay.textContent = `EM CENA: ${scenePlayerNames}`;
         currentSceneDisplay.classList.add('text-green-400');
         currentSceneDisplay.classList.remove('text-gray-400', 'text-yellow-400');
     }
@@ -442,14 +413,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function resetRound() {
         currentRound++;
-        if (isLightningRound) {
-            isLightningRound = false;
-            const btn = document.querySelector('[data-action="toggle-lightning-round"]');
-            if (btn) {
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-secondary');
-            }
-        }
         players.forEach(p => {
             p.hasPlayedInRound = false;
         });
@@ -474,11 +437,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentScene.length > 0) {
             showError('Atribua pontos aos jogadores em cena antes de sortear novos jogadores');
             return;
-        }
-
-        // Durante a rodada relâmpago, forçamos cenas solo
-        if (isLightningRound) {
-            scenePlayerCount.value = "1";
         }
 
         saveState();
@@ -533,39 +491,6 @@ document.addEventListener('DOMContentLoaded', () => {
         saveToLocalStorage();
     }
 
-    function handleToggleLightningRound() {
-        // Se já estiver em rodada relâmpago, verifica se pode desativar
-        if (isLightningRound) {
-            const activePlayers = players.filter(p => p.status === 'active');
-            const allHavePlayed = activePlayers.every(p => p.hasPlayedInRound);
-            
-            if (!allHavePlayed) {
-                showError('A rodada relâmpago só pode ser encerrada depois que todos os jogadores ativos participarem.');
-                return;
-            }
-        }
-
-        saveState();
-        isLightningRound = !isLightningRound;
-        const btn = document.querySelector('[data-action="toggle-lightning-round"]');
-        if (btn) {
-            if (isLightningRound) {
-                btn.classList.remove('btn-secondary');
-                btn.classList.add('btn-primary');
-                // Reseta os jogadores para a nova rodada relâmpago
-                players.forEach(p => {
-                    if (p.status === 'active') {
-                        p.hasPlayedInRound = false;
-                    }
-                });
-            } else {
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-secondary');
-            }
-        }
-        renderCurrentScene();
-        saveToLocalStorage();
-    }
     /**
      * Gerencia o processo de eliminação de jogadores.
      * 
@@ -695,12 +620,6 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'e':
                 eliminatePlayersBtn.click();
                 break;
-            case 'r':
-                const lightningBtn = document.querySelector('[data-action="toggle-lightning-round"]');
-                if (lightningBtn) {
-                    lightningBtn.click();
-                }
-                break;
         }
     }
 
@@ -714,9 +633,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (undoBtn) undoBtn.addEventListener('click', handleUndo);
     if (resetShowBtn) resetShowBtn.addEventListener('click', handleResetShow);
     
-    // Adiciona o manipulador da rodada relâmpago
-    const toggleLightningRoundBtn = document.querySelector('[data-action="toggle-lightning-round"]');
-    if (toggleLightningRoundBtn) toggleLightningRoundBtn.addEventListener('click', handleToggleLightningRound);
     if (toggleControlsBtn) toggleControlsBtn.addEventListener('click', handleToggleControls);
     if (closeWinnerModalBtn) closeWinnerModalBtn.addEventListener('click', handleCloseWinnerModal);
     
