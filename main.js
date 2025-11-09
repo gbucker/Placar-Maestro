@@ -95,6 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeWinnerModalBtn = document.querySelector('[data-action="close-winner-modal"]');
     const drawBowl = document.querySelector('[data-bowl="draw"]');
     const discardBowl = document.querySelector('[data-bowl="discard"]');
+    const controlsContainer = document.querySelector('[data-container="controls"]');
+    const toggleControlsBtn = document.querySelector('[data-action="toggle-controls"]');
 
     // ===== FUNÇÕES DE MANIPULAÇÃO DE ESTADO =====
     function saveState() {
@@ -419,6 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
         history = [];
         currentScene = [];
         currentRound = 1;
+        controlsContainer.classList.add('hidden');
         setupSection.classList.add('hidden');
         gameSection.classList.remove('hidden');
         render();
@@ -501,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Atualiza a interface
         renderCurrentScene();
         renderBowls();
-        updateEliminationButtonState();
+        updateButtonStates();
         saveToLocalStorage();
     }
     function handleScore(e) {
@@ -643,6 +646,51 @@ document.addEventListener('DOMContentLoaded', () => {
         clearLocalStorage();
         handleResetShow();
     }
+    function handleToggleControls() {
+        if (controlsContainer) {
+            controlsContainer.classList.toggle('hidden');
+        }
+    }
+
+    function handleKeydown(e) {
+        // Ignora atalhos se a seção de jogo não estiver ativa
+        if (gameSection.classList.contains('hidden')) {
+            return;
+        }
+
+        // Ignora atalhos se estiver digitando em um campo de input
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        const key = e.key.toLowerCase();
+
+        // Atalhos de pontuação (1-5)
+        if (key >= '1' && key <= '5') {
+            const scoreBtn = document.querySelector(`.btn-score[data-score="${key}"]`);
+            if (scoreBtn) {
+                scoreBtn.click();
+            }
+        }
+
+        switch (key) {
+            case 's':
+                drawPlayersBtn.click();
+                break;
+            case 'z':
+                undoBtn.click();
+                break;
+            case 'e':
+                eliminatePlayersBtn.click();
+                break;
+            case 'r':
+                const lightningBtn = document.querySelector('[data-action="toggle-lightning-round"]');
+                if (lightningBtn) {
+                    lightningBtn.click();
+                }
+                break;
+        }
+    }
 
     // ===== INICIALIZAÇÃO E ADIÇÃO DE LISTENERS =====
     if (startShowBtn) startShowBtn.addEventListener('click', handleStartShow);
@@ -657,11 +705,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Adiciona o manipulador da rodada relâmpago
     const toggleLightningRoundBtn = document.querySelector('[data-action="toggle-lightning-round"]');
     if (toggleLightningRoundBtn) toggleLightningRoundBtn.addEventListener('click', handleToggleLightningRound);
+    if (toggleControlsBtn) toggleControlsBtn.addEventListener('click', handleToggleControls);
     if (closeWinnerModalBtn) closeWinnerModalBtn.addEventListener('click', handleCloseWinnerModal);
-    const clearStorageBtn = document.getElementById('clear-storage-btn');
-    if (clearStorageBtn) clearStorageBtn.addEventListener('click', handleClearStorage);
+    
+    // Botão para limpar cache agora tem um seletor de dados
+    const clearStorageBtn = document.querySelector('[data-action="clear-storage"]');
+    if (clearStorageBtn) {
+        clearStorageBtn.addEventListener('click', handleClearStorage);
+    }
+    
+    document.addEventListener('keydown', handleKeydown);
+    
     updateUndoButton();
-    updateEliminationButtonState();
+    
     if (loadFromLocalStorage()) {
         setupSection.classList.add('hidden');
         gameSection.classList.remove('hidden');

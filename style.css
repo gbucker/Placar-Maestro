@@ -139,3 +139,18 @@
                     0 0 10px rgba(234, 179, 8, 0.5);
     }
 }
+
+
+/* Novo cabeçalho fixo */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(17 24 39 / 0.8); /* bg-gray-900 com transparência */
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    z-index: 50;
+    border-bottom: 1px solid rgb(55 65 81); /* border-gray-700 */
+}
+

@@ -20,12 +20,12 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-4 md:p-8 min-h-screen">
+<body class="bg-gray-900 text-gray-100 min-h-screen">
 
-    <div class="container mx-auto max-w-7xl">
+    <div class="container mx-auto max-w-7xl px-4 md:px-8 pb-8">
 
         <!-- ===== FASE 1: CONFIGURAÇÃO INICIAL ===== -->
-        <div class="setup-section max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg" data-section="setup">
+        <div class="setup-section max-w-lg mt-8 mx-auto bg-gray-800 p-6 rounded-lg shadow-lg" data-section="setup">
             <h1 class="text-3xl font-bold text-center mb-4 text-yellow-400">MAESTRO</h1>
             <p class="text-center text-gray-300 mb-4">Digite os nomes dos jogadores, separados por vírgula.</p>
             <div class="text-sm text-gray-400 mb-2 space-y-1">
@@ -44,9 +44,34 @@
         </div>
 
         <!-- ===== FASE 2-7: PAINEL PRINCIPAL DO JOGO (Oculto por padrão) ===== -->
-        <div class="game-section hidden" data-section="game">
+        <div class="game-section hidden pt-24" data-section="game">
             
-            <h1 class="text-4xl font-bold text-center mb-6 text-yellow-400">PLACAR MAESTRO</h1>
+            <header class="flex justify-between items-center mb-4">
+                <!-- Menu de Controles (Três Pontinhos) -->
+                <div class="relative">
+                    <button class="p-2 rounded-md hover:bg-gray-700" data-action="toggle-controls">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                    <!-- FASE 7: Funções Adicionais (Dropdown) -->
+                    <div class="absolute top-full mt-2 w-72 scoreboard-panel p-4 rounded-lg hidden" data-container="controls">
+                        <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Controles do Show</h2>
+                        <div class="flex flex-col gap-3">
+                            <button class="btn btn-secondary w-full" data-action="undo">Desfazer</button>
+                            <button class="btn btn-danger w-full" data-action="reset-show">Resetar Show</button>
+                            <button class="btn btn-secondary w-full" data-action="clear-storage">Limpar Cache</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="text-4xl font-bold text-center text-yellow-400">PLACAR MAESTRO</h1>
+
+                <!-- Contador de Rodada -->
+                <div class="round-display-box bg-gray-800 p-2 rounded-lg">
+                    <span class="text-lg font-semibold" data-display="round">Rodada 1</span>
+                </div>
+            </header>
 
             <div class="flex flex-col lg:flex-row gap-6">
 
@@ -56,7 +81,6 @@
                     <div class="scoreboard-panel p-4 rounded-lg">
                         <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2 flex justify-between items-center">
                             <span>Sorteio de Cena</span>
-                            <span class="round-display text-base font-normal text-gray-400" data-display="round">Rodada 1</span>
                         </h2>
 
                         <!-- NOVO: Tigelas de Sorteio -->
@@ -104,33 +128,9 @@
                             <button class="btn-score" data-score="5">5</button>
                         </div>
                         <div class="mt-4 border-t border-gray-700 pt-4">
-                            <button class="btn btn-secondary w-full" data-action="toggle-lightning-round">
+                            <button class="btn btn-secondary w-full hidden" data-action="toggle-lightning-round">
                                 Rodada Relâmpago
                             </button>
-                        </div>
-                    </div>
-
-                    <!-- FASE 5: Eliminação -->
-                    <div class="scoreboard-panel p-4 rounded-lg">
-                        <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Eliminação</h2>
-                         <div class="flex items-center gap-3 mb-3">
-                            <label for="eliminate-count" class="flex-shrink-0">Eliminar os</label>
-                            <input type="number" class="eliminate-count w-20 bg-gray-900 text-white p-2 rounded border border-gray-700 text-center" 
-                                   value="1" min="1" data-input="eliminate-count">
-                            <span class="flex-shrink-0">últimos.</span>
-                        </div>
-                         <button class="btn btn-danger w-full" data-action="eliminate-players">
-                            Eliminar Jogadores
-                        </button>
-                    </div>
-                    
-                    <!-- FASE 7: Funções Adicionais -->
-                    <div class="scoreboard-panel p-4 rounded-lg">
-                        <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2">Controles do Show</h2>
-                        <div class="flex gap-3">
-                            <button class="btn btn-secondary w-1/3" data-action="undo">Desfazer</button>
-                            <button class="btn btn-danger w-1/3" data-action="reset-show">Resetar Show</button>
-                            <button class="btn btn-secondary w-1/3" data-action="clear-storage">Limpar Cache</button>
                         </div>
                     </div>
                 </div>
@@ -166,8 +166,19 @@
 
                     <!-- FASE 6: Lista de Eliminados -->
                     <div class="scoreboard-panel p-4 rounded-lg">
-                        <h2 class="text-xl font-semibold mb-3">Eliminados</h2>
-                        <div class="player-list eliminated-players flex flex-wrap gap-2" data-list="eliminated-players">
+                        <div class="flex justify-between items-center mb-3">
+                            <h2 class="text-xl font-semibold">Eliminados</h2>
+                            <div class="flex items-center gap-2">
+                                <label for="eliminate-count" class="text-sm">Eliminar os</label>
+                                <input type="number" class="eliminate-count w-16 bg-gray-900 text-white p-1 rounded border border-gray-700 text-center" 
+                                       value="1" min="1" data-input="eliminate-count">
+                                <span class="text-sm">últimos</span>
+                                <button class="btn btn-danger btn-sm" data-action="eliminate-players">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="player-list eliminated-players flex flex-wrap gap-2 min-h-[40px] bg-gray-900/50 p-2 rounded-md" data-list="eliminated-players">
                             <!-- Jogadores eliminados serão renderizados aqui -->
                         </div>
                     </div>
