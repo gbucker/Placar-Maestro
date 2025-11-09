@@ -14,14 +14,24 @@ O Placar Maestro é uma aplicação web que auxilia na gestão de shows de impro
 
 ## 🚀 Como Usar
 
-1. Acesse o arquivo `index.html` em seu navegador
-2. Digite os nomes dos jogadores separados por vírgula
-3. Clique em "Iniciar Show"
-4. Use os controles do Emcee para:
-   - Sortear jogadores para cenas
-   - Atribuir pontuações (1-5)
-   - Eliminar jogadores quando necessário
-   - Desfazer ações em caso de erro
+1. Acesse o arquivo `index.html` em seu navegador.
+2. Digite os nomes dos jogadores separados por vírgula.
+3. Clique em "Iniciar Show".
+4. Use os controles na tela para:
+   - **Sortear jogadores** para as cenas.
+   - **Atribuir pontuações** (1-5) após cada cena.
+   - **Eliminar jogadores** com menor pontuação ao final de cada rodada.
+5. Acesse os **Controles do Show** (Desfazer, Resetar) no menu superior esquerdo.
+
+## ⌨️ Atalhos de Teclado
+
+Para agilizar a operação durante o show, utilize os seguintes atalhos de teclado:
+
+- **`1` a `5`**: Atribui a nota correspondente à cena atual.
+- **`s`**: Sorteia os próximos jogadores.
+- **`e`**: Elimina os jogadores com a menor pontuação.
+- **`z`**: Desfaz a última ação (pontuação, sorteio ou eliminação).
+- **`r`**: Ativa ou desativa a Rodada Relâmpago (funcionalidade avançada).
 
 ## 📋 Regras do Jogo
 
@@ -39,15 +49,17 @@ As regras completas do jogo estão documentadas no arquivo [regras.md](regras.md
 - JavaScript (Vanilla)
 - Jekyll
 - Tailwind CSS
-- Google Fonts (Inter, Roboto)
+- Google Fonts (Inter)
 
 ## ⚙️ Funcionalidades Principais
 
-- **Sistema de Rodadas**: Garante que todos os jogadores participem antes que uma nova rodada comece
-- **Sorteio Inteligente**: Avisa quando restam 3 ou 1 jogador para completar a rodada
-- **Proteção contra Empates**: Sistema especial para tratar empates durante eliminações
-- **Persistência Local**: Salva o estado do jogo no navegador
-- **Interface Responsiva**: Funciona em dispositivos móveis e desktop
+- **Interface Intuitiva**: Cabeçalho fixo com o número da rodada em destaque e controles principais sempre visíveis.
+- **Controles Avançados**: Ações como "Desfazer" e "Resetar" ficam em um menu suspenso para uma interface mais limpa.
+- **Sistema de Rodadas**: Garante que todos os jogadores participem antes que uma nova rodada comece.
+- **Sorteio Inteligente**: Avisa quando restam poucos jogadores para completar a rodada.
+- **Proteção contra Empates**: Sistema especial para tratar empates durante eliminações.
+- **Persistência Local**: Salva o estado do jogo no navegador para evitar perda de dados.
+- **Interface Responsiva**: Funciona em dispositivos móveis e desktop.
 
 ## 🤝 Contribuindo
 
