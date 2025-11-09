@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== FUNÇÕES DE MANIPULAÇÃO DE ESTADO =====
     function saveState() {
-        history.push(JSON.stringify({ players, maxScoreForUI, currentRound }));
+        history.push(JSON.stringify({ players, maxScoreForUI, currentRound, currentScene, isLightningRound }));
         if (history.length > 20) {
             history.shift();
         }
@@ -111,9 +111,21 @@ document.addEventListener('DOMContentLoaded', () => {
         players = parsedState.players;
         maxScoreForUI = parsedState.maxScoreForUI;
         currentRound = parsedState.currentRound || 1;
+        currentScene = parsedState.currentScene || [];
+        isLightningRound = parsedState.isLightningRound || false;
         render();
-        if (currentScene.length === 0) {
-            checkPoolWarnings();
+        renderCurrentScene();
+
+        // Sincroniza o botão da rodada relâmpago
+        const lightningBtn = document.querySelector('[data-action="toggle-lightning-round"]');
+        if (lightningBtn) {
+            if (isLightningRound) {
+                lightningBtn.classList.remove('btn-secondary');
+                lightningBtn.classList.add('btn-primary');
+            } else {
+                lightningBtn.classList.remove('btn-primary');
+                lightningBtn.classList.add('btn-secondary');
+            }
         }
     }
     function updateUndoButton() {
